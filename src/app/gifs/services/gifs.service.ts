@@ -18,7 +18,12 @@ export class GifsService {
 
   constructor(
     private http: HttpClient
-  ) {}
+  ) {
+    // if (localStorage.getItem('historial')) {
+    //   this._historial = JSON.parse(localStorage.getItem('historial')! );
+    // }
+    this._historial = JSON.parse(localStorage.getItem('historial')! ) || [];
+  }
 
   buscarGifs( query: string = '' ) {
     query = query.trim().toLocaleLowerCase();
@@ -26,6 +31,8 @@ export class GifsService {
     this._historial.unshift( query ); // inserto elemento en historial
     this._historial = this._historial.splice(0,10); // acoto el historial en 10 elementos
     console.log('buscarGifs', this._historial);
+
+    localStorage.setItem('historial', JSON.stringify(this._historial) );
     
     // así lo haríamos con JS puro 
     // fetch('https://api.giphy.com/v1/gifs/search?api_key=fpBLP0AcrZUrTX7aczQWnaWPrRFic8TF&q=dragon%20ball%20z&limit=10')
