@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -5,12 +6,18 @@ import { Injectable } from '@angular/core';
 })
 export class GifsService {
 
-  // private _apiKey: string = 'fpBLP0AcrZUrTX7aczQWnaWPrRFic8TF';
+  private _apiKey: string = 'fpBLP0AcrZUrTX7aczQWnaWPrRFic8TF';
   private _historial: string[] = [];
+
+  public resultados: any[] = [];
 
   get historial() {
     return [...this._historial];
   }
+
+  constructor(
+    private http: HttpClient
+  ) {}
 
   buscarGifs( query: string = '' ) {
     query = query.trim().toLocaleLowerCase();
@@ -19,10 +26,18 @@ export class GifsService {
     this._historial = this._historial.splice(0,10); // acoto el historial en 10 elementos
     console.log('buscarGifs', this._historial);
     
+    // así lo haríamos con JS puro 
     // fetch('https://api.giphy.com/v1/gifs/search?api_key=fpBLP0AcrZUrTX7aczQWnaWPrRFic8TF&q=dragon%20ball%20z&limit=10')
     // .then( resp => {
     //   resp.json().then( data => console.log('fetch data', data) )
     // })
+
+    // con http y subscripe realizamos la misma consulta
+    this.http.get(`https://api.giphy.com/v1/gifs/search?api_key=fpBLP0AcrZUrTX7aczQWnaWPrRFic8TF&q=${ query }&limit=10`)
+    .subscribe( ( resp: any ) => {
+      console.log('http resp', resp.data);
+      this.resultados = resp.data;
+    })
   }
 
 }

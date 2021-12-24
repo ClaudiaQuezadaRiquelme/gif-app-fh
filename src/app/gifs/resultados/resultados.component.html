@@ -1,1 +1,22 @@
-<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam alias blanditiis ut aspernatur, aperiam necessitatibus perspiciatis facere, sapiente aliquid amet reiciendis, eius soluta! Atque quisquam, nisi cupiditate provident debitis nihil!</p>
+<!-- <ul>
+    <li *ngFor="let res of resultados;">
+        {{res.url}}
+    </li>
+</ul> -->
+
+<div class="row">
+    <div *ngFor="let res of resultados;" class="col-md-4 col-sm-6">
+        <div class="card">
+            <img    class="card-img-top"
+                    [src]="res.images.downsized_medium.url" 
+                    [alt]="res.title"
+            >
+            <div class="card-body">
+                
+                <p class="card-text">
+                    {{res.title}}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
